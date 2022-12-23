@@ -8,10 +8,6 @@
 
 using namespace std;
 
-/* TO DO 
-Contador cuenta atras para comenzar
-*/
-
 /* Mueve el cursor a donde sea necesario */
 void moverxy(int x, int y = 40){
     HANDLE hCon;
@@ -25,9 +21,9 @@ void moverxy(int x, int y = 40){
 /* Elimina los Input introducidos*/
 void ClearInputBuffer()
 {
-    PINPUT_RECORD ClearBuffer1 = new INPUT_RECORD[1024];
+    PINPUT_RECORD ClearBuffer1 = new INPUT_RECORD[2048];
     DWORD ClearBuffer2;
-    ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE),ClearBuffer1,1024,&ClearBuffer2);
+    ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE),ClearBuffer1,2048,&ClearBuffer2);
     delete[] ClearBuffer1;
 }
 
@@ -74,23 +70,39 @@ class juego{
             /* Oculta el cursor en la consola */
             ShowConsoleCursor(false);
 
-            /* El usuario escribe para empezar la partida */
-            cout << "*  _____ _     _                              _        _                    *" << endl;
-            cout << "* | ____| |   (_)_   _  ___  __ _  ___     __| | ___  | | __ _              *" << endl;
-            cout << "* |  _| | |   | | | | |/ _ \\/ _` |/ _ \\   / _` |/ _ \\ | |/ _` |             *" << endl;
-            cout << "* | |___| |   | | |_| |  __/ (_| | (_) | | (_| |  __/ | | (_| |             *" << endl;
-            cout << "* |_____|_|  _/ |\\__,_|\\___|\\__, |\\___/   \\__,_|\\___| |_|\\__,_|             *" << endl;
-            cout << "*           |__/            |___/                                           *" << endl;
-            cout << "*                                                                           *" << endl;
-            cout << "*  _ __   __ ___   _____                                                    *" << endl;
-            cout << "* |  _ \\ / _  \\ \\ / / _ \\                                                   *" << endl;
-            cout << "* | | | | (_| |\\ V /  __/                                                   *" << endl;
-            cout << "* |_| |_|\\__,_| \\_/ \\___|                                                   *" << endl;
-            cout << "*                                                                           *" << endl;
-            cout << "* Hecho por @Layraaa                                                        *" << endl;
-            cout << "* Presiona una tecla para comenzar...                                       *" << endl;
-            cout << "* Maximiza tu pantalla para poder jugar                                     *" << endl;
-            getch();
+            
+            cout << " _____ _     _                              _        _" << endl;
+            cout << "| ____| |   (_)_   _  ___  __ _  ___     __| | ___  | | __ _" << endl;
+            cout << "|  _| | |   | | | | |/ _ \\/ _` |/ _ \\   / _` |/ _ \\ | |/ _` |" << endl;
+            cout << "| |___| |   | | |_| |  __/ (_| | (_) | | (_| |  __/ | | (_| |" << endl;
+            cout << "|_____|_|  _/ |\\__,_|\\___|\\__, |\\___/   \\__,_|\\___| |_|\\__,_|" << endl;
+            cout << "          |__/            |___/" << endl;
+            cout << " _ __   __ ___   _____" << endl;
+            cout << "|  _ \\ / _  \\ \\ / / _ \\" << endl;
+            cout << "| | | | (_| |\\ V /  __/" << endl;
+            cout << "|_| |_|\\__,_| \\_/ \\___|" << endl;
+            cout << endl;
+            cout << "Hecho por @Layraaa" << endl;
+            cout << "El objetivo del juego es esquivar lo asteroides" << endl;
+            cout << "Maximiza tu pantalla para poder jugar" << endl;
+            cout << endl; 
+            cout << "CONTROLES:" << endl;
+            cout << "A: Moverse hacia la izquierda" << endl;
+            cout << "D: Moverse hacia la derecha" << endl;
+            cout << endl;
+            cout << "Presiona N para salir..." << endl;
+            cout << "Presiona cualquier otra tecla para comenzar..." << endl;
+            
+            /* El usuario escribe y comprueba si quiere comenzar o salir */
+            int start = getch();
+
+            if (start == 78 || start == 110)
+            {
+                exit(0);
+            } else {
+                ShowWindow( GetConsoleWindow() , SW_MAXIMIZE);
+                ShowConsoleCursor(false);
+            }
             
             /* Crear escenario */
             system ("CLS");
@@ -116,9 +128,50 @@ class juego{
             cout << "*****************************************************************************" << endl;
             escribirnave();
             
-            /* Genera la seed del randomizador*/
+            /* Genera la seed del randomizador */
             srand(_getpid());
 
+            /* Cuenta atrás*/
+            moverxy(34, 21);
+            cout << " _____" << endl;
+            moverxy(34, 22);
+            cout << "|___ /" << endl;
+            moverxy(34, 23); 
+            cout << "  |_ \\" << endl;
+            moverxy(34, 24);
+            cout << "___) |" << endl;
+            moverxy(34, 25);
+            cout << "|____/" << endl;
+            Sleep(1000);
+            moverxy(34, 21);
+            cout << " ____" << endl;
+            moverxy(34, 22);
+            cout << "|___ \\" << endl;
+            moverxy(34, 23); 
+            cout << " __) |" << endl;
+            moverxy(34, 24);
+            cout << "/ __/ " << endl;
+            moverxy(34, 25);
+            cout << "|_____|" << endl; 
+            Sleep(1000);
+            moverxy(34, 21);
+            cout << "   _  " << endl;
+            moverxy(34, 22);
+            cout << "  / |  " << endl;
+            moverxy(34, 23);
+            cout << "  | |  " << endl;
+            moverxy(34, 24);
+            cout << "  | |  " << endl;
+            moverxy(34, 25);
+            cout << "  |_|  " << endl;
+            Sleep(1000);
+            
+            for (int i = 0; i < 6; i++)
+            {
+                moverxy(34, 21 + i);
+                cout << "      " << endl;
+            }
+            
             /* Mientras tenga más de 0 vidas, el usuario sigue jugando */
             /* 10 asteroides, 6 a velocidad 1, 4 a velocidad 2*/
             while (vidas > 0)
@@ -139,7 +192,15 @@ class juego{
                 asteroides(6);
                 asteroides(9);
                 movernave();
-                Sleep(50 - (puntos / 100));
+
+                /* Dificultad progresiva*/
+                if (puntos < 4900)
+                {
+                    Sleep(50 - (puntos / 100));
+                } else {
+                    Sleep(1);
+                }
+                
             }
 
             /* Juego terminado */
@@ -147,8 +208,8 @@ class juego{
             cout << "Juego terminado" << endl;
             cout << "Presiona una tecla para salir..." << endl;
             ClearInputBuffer();
-            getch();
             ShowConsoleCursor(true);
+            getch();
         }
         
 };
@@ -233,7 +294,6 @@ void juego::movernave(){
     }
 };
 
-// Borrar toda la linea \x1b[2K
 /* Permite borrar la nave para escribirla despues */
 void juego::borrarnave(){
     switch (vidas)
